@@ -1,0 +1,18 @@
+# Runtime state and captured data - personal to whoever runs the tool,
+# should never be committed.
+saved/
+state.txt
+traffic.jsonl
+traffic_bodies/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Editor/OS cruft
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

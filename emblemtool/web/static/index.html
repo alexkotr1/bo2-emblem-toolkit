@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BO2 Emblem Toolkit</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand">
+    <div class="brand-badge">◆</div>
+    <div>
+      <h1>BO2 Emblem Toolkit</h1>
+      <p class="tagline">Capture and share Black Ops II emblems with friends</p>
+    </div>
+  </div>
+  <div class="setup-box" id="setupBox">
+    <span class="setup-label">PS5 proxy setting</span>
+    <span class="setup-value" id="setupValue">detecting…</span>
+  </div>
+</header>
+
+<main>
+
+  <section class="card mode-card">
+    <h2>Mode</h2>
+    <div class="mode-grid">
+      <button class="mode-btn" data-mode="off">
+        <span class="mode-icon">⏻</span>
+        <span class="mode-name">Off</span>
+        <span class="mode-desc">Normal internet, nothing is touched</span>
+      </button>
+      <button class="mode-btn" data-mode="capture">
+        <span class="mode-icon">📸</span>
+        <span class="mode-name">Capture</span>
+        <span class="mode-desc">Save the emblem of whoever you look at</span>
+      </button>
+      <button class="mode-btn" data-mode="inject">
+        <span class="mode-icon">📤</span>
+        <span class="mode-name">Show</span>
+        <span class="mode-desc">Display your selected emblem to others</span>
+      </button>
+    </div>
+    <p class="mode-hint" id="modeHint"></p>
+  </section>
+
+  <section class="card">
+    <div class="section-head">
+      <h2>Your captured emblems</h2>
+      <button class="btn btn-ghost btn-small" id="refreshBtn">Refresh</button>
+    </div>
+    <p class="muted">Pick one to select it. When you switch to <strong>Show</strong>, the selected emblem is displayed to everyone you look at.</p>
+    <p class="muted" id="emblemsEmpty">No emblems captured yet. Switch to <strong>Capture</strong> mode, then view a player's channel on your PS5.</p>
+    <div class="emblem-list" id="emblemList"></div>
+  </section>
+
+</main>
+
+<footer>
+  <p>
+    BO2 Emblem Toolkit — created by <a href="https://github.com/alexkotr1" target="_blank" rel="noopener">alexkotr1</a>.
+    Licensed under the <a href="/LICENSE" target="_blank" rel="noopener">MIT License</a> — free to use and modify, credit appreciated.
+    For personal use on your own PS5 and network.
+  </p>
+</footer>
+
+<template id="emblemCardTpl">
+  <div class="emblem-card">
+    <div class="emblem-select-indicator">✓</div>
+    <div class="thumb-frame"><img class="emblem-thumb" alt="emblem"></div>
+    <input class="emblem-label-input" placeholder="Unnamed emblem">
+    <span class="emblem-date"></span>
+  </div>
+</template>
+
+<script src="/app.js"></script>
+</body>
+</html>
