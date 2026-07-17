@@ -3,7 +3,23 @@
 This is a one-time setup. Once it's done, day-to-day use is just
 [docs/USAGE.md](USAGE.md).
 
-## 1. Install Python
+## Windows: just download the exe
+
+If you're on Windows and don't want to deal with Python at all, grab
+`BO2EmblemToolkit.exe` from this project's
+[Releases page](https://github.com/alexkotr1/bo2-emblem-toolkit/releases).
+It's a single file with everything already inside it. Put it in its own
+folder (it saves your captured emblems next to itself), double-click it, and
+skip ahead to [Point your PS5 at it](#point-your-ps5-at-it) below.
+
+Windows may warn you that the file is from an unrecognized publisher, since
+it isn't signed with a paid code-signing certificate. Click "More info" then
+"Run anyway." If you'd rather verify the code yourself first, or you're on
+macOS/Linux, use the Python setup instead.
+
+## Running it from source instead (any OS)
+
+### 1. Install Python
 
 You need Python 3.9 or newer.
 
@@ -22,11 +38,11 @@ python --version
 You should see something like `Python 3.11.4`. If you get an error, Python
 isn't installed correctly or isn't on your PATH yet.
 
-## 2. Get the toolkit
+### 2. Get the toolkit
 
 Download or clone this repository, then open a terminal **in that folder**.
 
-## 3. Install the one dependency
+### 3. Install the one dependency
 
 ```
 pip install -r requirements.txt
@@ -35,7 +51,7 @@ pip install -r requirements.txt
 This installs [Pillow](https://pypi.org/project/Pillow/), used to render
 emblem thumbnails. Nothing else is required.
 
-## 4. Run it
+### 4. Run it
 
 **Windows**: double-click `start.bat`.
 
@@ -61,7 +77,7 @@ open `http://localhost:8090` yourself.
 
 Keep this terminal window open while you use the toolkit. Closing it stops everything. To stop on purpose, press `Ctrl+C` in that window, or just close it.
 
-## 5. Point your PS5 at it
+## Point your PS5 at it
 
 Your PS5 and this PC need to be on the same network, either the same Wi-Fi/router, or this PC's own mobile hotspot with the PS5 connected to it.
 

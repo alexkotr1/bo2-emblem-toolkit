@@ -33,6 +33,10 @@ See [docs/USAGE.md](docs/USAGE.md) for the full walkthrough and [docs/INSTALL.md
 
 ## Running it
 
+On Windows, the simplest option is to download `BO2EmblemToolkit.exe` from the [Releases page](https://github.com/alexkotr1/bo2-emblem-toolkit/releases) and double-click it. Nothing else to install.
+
+To run it from source instead:
+
 ```
 pip install -r requirements.txt
 python run.py
@@ -42,9 +46,9 @@ Your browser opens to the control panel on its own. On Windows you can also just
 
 ## Requirements
 
-- Windows, macOS, or Linux with Python 3.9 or newer
-- A PS5 and a PC on the same network, or the PC's own mobile hotspot with the PS5 connected to it
-- Pillow, installed automatically from `requirements.txt`
+- The exe: Windows only, nothing else needed
+- From source: Windows, macOS, or Linux with Python 3.9 or newer, plus Pillow (installed automatically from `requirements.txt`)
+- Either way: a PS5 and a PC on the same network, or the PC's own mobile hotspot with the PS5 connected to it
 
 ## Project layout
 

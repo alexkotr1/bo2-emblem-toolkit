@@ -85,7 +85,7 @@ class Handler(http.server.BaseHTTPRequestHandler):
             })
 
         elif path == "/LICENSE":
-            license_path = os.path.join(config.ROOT_DIR, "LICENSE")
+            license_path = os.path.join(config.RESOURCE_DIR, "LICENSE")
             if os.path.isfile(license_path):
                 with open(license_path, "rb") as f:
                     self._bytes(f.read(), "text/plain; charset=utf-8")
