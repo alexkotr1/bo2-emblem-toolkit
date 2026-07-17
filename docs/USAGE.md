@@ -30,9 +30,11 @@ Click the text under a card to rename it to something you'll recognize later, li
 
 You can change your selection at any point, in any mode. It takes effect as soon as you're in Show mode and reopen the editor.
 
-### Why it sometimes takes a second try
+## Two things to know before you start
 
-The PS5 caches emblem data locally. If your console already has an emblem cached, it might not ask the server again right away, and Show mode has nothing to intercept until it does. Closing and reopening the editor, or waiting a bit, usually clears this up. The terminal window running the toolkit will print a note when it notices this happening.
+**The editor only checks the server once per game session.** The first time you open your emblem editor, Black Ops II caches whatever it loads and won't ask again after that, even if you pick a different emblem in the control panel. If you need to load a second or third emblem, you have to clear that cache first: either fully restart the game, or switch to Zombies and back to Multiplayer, then open the editor again. Just backing out of the editor and going back in isn't enough.
+
+**It won't work if the emblem uses a shape you haven't unlocked.** Emblems are built from shapes, ranks, and weapon-qualification icons that Black Ops II normally only lets you use once you've earned them. If a captured emblem includes something your own account hasn't unlocked, the game may fail to load it, show it incorrectly, or refuse to save it. There's no way around this from the toolkit's side, since the game itself is enforcing it, not the proxy.
 
 ## Questions
 

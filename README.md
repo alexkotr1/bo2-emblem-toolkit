@@ -24,6 +24,11 @@ Everything else, including PSN sign-in and matchmaking, passes through the proxy
 5. Open your own emblem editor on the PS5. The captured emblem loads in place of whatever you'd normally see there.
 6. Save it, same as you would with anything you made yourself.
 
+Two things worth knowing before you try this:
+
+- The game only checks for a new emblem once per session. After you open the editor the first time, it caches what it loaded and won't ask again, even if you pick a different capture afterward. To load a different one, restart the game, or switch to Zombies and back to Multiplayer, before opening the editor again.
+- It won't work if the emblem uses a shape you haven't unlocked on your own account. Black Ops II checks that itself, and there's nothing the proxy can do about it.
+
 See [docs/USAGE.md](docs/USAGE.md) for the full walkthrough and [docs/INSTALL.md](docs/INSTALL.md) for setup.
 
 ## Running it
