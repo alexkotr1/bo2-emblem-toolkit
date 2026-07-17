@@ -139,6 +139,8 @@ def handle(client):
 
         if method == "CONNECT":
             host, _, port = parts[1].partition(":")
+            if "demonware" in host.lower() and config.TARGET_HOST_SUBSTR not in host:
+                log(f"  note: HTTPS traffic to {host} (not the expected emblem host '{config.TARGET_HOST_SUBSTR}') - tunneled untouched")
             port = int(port or 443)
             upstream = socket.create_connection((host, port))
             client.sendall(b"HTTP/1.1 200 Connection established\r\n\r\n")
@@ -161,6 +163,8 @@ def handle(client):
             if config.TARGET_HOST_SUBSTR in host:
                 handle_target_request(client, req_rewritten, host, port, path)
             else:
+                if "demonware" in host.lower():
+                    log(f"  note: HTTP request to {host}{path} (not the expected emblem host '{config.TARGET_HOST_SUBSTR}') - passed through untouched")
                 upstream = socket.create_connection((host, port))
                 upstream.sendall(req_rewritten)
                 t1 = threading.Thread(target=pipe, args=(upstream, client), daemon=True)
