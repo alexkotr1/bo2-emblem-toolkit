@@ -7,13 +7,11 @@ This is a one-time setup. Once it's done, day-to-day use is just
 
 You need Python 3.9 or newer.
 
-- **Windows**: download from [python.org/downloads](https://www.python.org/downloads/).
-  During installation, **check the box that says "Add python.exe to PATH"**
-  — it's easy to miss and the app won't run without it.
-- **macOS**: Python 3 is often preinstalled; if not, use
-  [python.org/downloads](https://www.python.org/downloads/) or `brew install python3`.
-- **Linux**: install via your distro's package manager, e.g.
-  `sudo apt install python3 python3-pip`.
+On Windows, download it from [python.org/downloads](https://www.python.org/downloads/). During installation, check the box that says "Add python.exe to PATH." It's easy to miss, and nothing here will run without it.
+
+On macOS, Python 3 is often already there. If not, get it from python.org or run `brew install python3`.
+
+On Linux, install it through your distro's package manager, for example `sudo apt install python3 python3-pip`.
 
 To check it worked, open a terminal (Command Prompt on Windows) and run:
 
@@ -61,28 +59,21 @@ A terminal window will show something like:
 Your browser should open to the control panel automatically. If it doesn't,
 open `http://localhost:8090` yourself.
 
-**Keep this terminal window open** while you use the toolkit — closing it
-stops everything. To stop on purpose, press `Ctrl+C` in that window (or just
-close it).
+Keep this terminal window open while you use the toolkit. Closing it stops everything. To stop on purpose, press `Ctrl+C` in that window, or just close it.
 
 ## 5. Point your PS5 at it
 
-Your PS5 and this PC need to be on the **same network** — either the same
-Wi-Fi/router, or this PC's own mobile hotspot with the PS5 connected to it.
+Your PS5 and this PC need to be on the same network, either the same Wi-Fi/router, or this PC's own mobile hotspot with the PS5 connected to it.
 
 On the PS5:
 
-1. **Settings → Network → Settings → Set Up Internet Connection**
-2. Choose your connection (Wi-Fi or LAN), then **Advanced Settings**
-3. Set **Proxy Server** to **Use**
-4. Enter the IP address and port shown in the toolkit's terminal window (and
-   also shown at the top of the web control panel) — e.g. `192.168.1.42`
-   and `8080`
-5. Save and test your internet connection from the PS5's network settings
-   screen
+1. Settings → Network → Settings → Set Up Internet Connection
+2. Choose your connection (Wi-Fi or LAN), then Advanced Settings
+3. Set Proxy Server to Use
+4. Enter the IP address and port shown in the toolkit's terminal window and at the top of the control panel, for example `192.168.1.42` and `8080`
+5. Save, then test the internet connection from the PS5's network settings screen
 
-If the PS5 says it has no internet connection after this, see
-**Troubleshooting** below before assuming something is broken.
+If the PS5 says it has no internet connection after this, check the troubleshooting section below before assuming something's broken.
 
 ## Troubleshooting
 

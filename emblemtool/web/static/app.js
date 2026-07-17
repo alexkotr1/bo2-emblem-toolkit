@@ -3,9 +3,9 @@
 // for non-technical users.
 
 const modeHints = {
-  off: "The proxy is transparent. Nothing is captured or shown.",
-  capture: "Open a player's channel on your PS5 - their emblem will be saved below automatically.",
-  inject: "Whichever emblem is selected below is shown to every player you look at.",
+  off: "The proxy is transparent. Nothing is captured or changed.",
+  capture: "Open a player's profile or channel on your PS5 - their emblem is saved below automatically.",
+  inject: "Open your own emblem editor on the PS5. The selected emblem below loads there, ready to save.",
 };
 
 let currentStatus = null;

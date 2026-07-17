@@ -1,10 +1,11 @@
-"""The single emblem currently armed to show, if any.
+"""The single emblem currently selected to load into your own editor.
 
-Exactly one captured emblem (or your own) can be "selected" at a time - it's
-served to every target the proxy sees a request from while in Show mode,
-regardless of which numbered slot their console happens to ask for. There is
-deliberately no per-slot/per-player configuration: one selection, shown to
-everyone, is simpler and more reliable.
+Exactly one captured emblem can be selected at a time. While in Show mode,
+opening your own emblem editor on the PS5 triggers a request for one of your
+saved emblem slots - the proxy answers with the selected emblem's data
+instead of your real saved data, regardless of which numbered slot your
+console happens to ask for. From there you save it in the editor like
+anything else, and it's permanently yours.
 """
 import json
 import os
@@ -31,7 +32,7 @@ def read_selection():
 
 
 def select_emblem(group, slot):
-    """Select one captured emblem to be shown to everyone."""
+    """Select one captured emblem to load into your own editor next."""
     os.makedirs(group_dir(config.ACTIVE_NAME), exist_ok=True)
     with open(os.path.join(group_dir(group), f"slot_{slot}.bin"), "rb") as f:
         data = f.read()

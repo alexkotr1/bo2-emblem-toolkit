@@ -99,9 +99,9 @@ def handle_target_request(client, req, host, port, path):
         if selected is not None:
             client.sendall(selected)
             # A conditional/cache-check request from the console is the main
-            # reason "Show" can silently do nothing for a player you just
-            # looked at - their console already cached the real response and
-            # may not even ask again. Nothing to fix here, just worth noting.
+            # reason Show mode can silently appear to do nothing - your PS5
+            # already has a cached copy of one of your slots and may not ask
+            # again right away. Nothing to fix here, just worth noting.
             if _req_header(req, "If-None-Match") or _req_header(req, "If-Modified-Since") or _req_header(req, "Range"):
                 log(f"  Show: sent selected emblem for slot_{slot_num}, but the console sent a "
                     "cache-check request - it may keep using its cached copy instead")

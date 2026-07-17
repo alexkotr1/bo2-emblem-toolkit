@@ -1,95 +1,70 @@
 # BO2 Emblem Toolkit
 
-Capture another player's Call of Duty: Black Ops II emblem while playing on
-PS5, and show your favorite one to whoever you look at — all from a simple
-web control panel. No command line required.
+A tool for copying another player's Black Ops II emblem onto your own account on PS5.
 
-> Built for personal use, on your own PS5 and your own home network.
+You capture the emblem while looking at that player's profile, then load it into your own in-game emblem editor and save it there. From that point it's yours, the same as anything else you made in the editor.
 
-## What it does
+Built for personal use, on your own PS5 and your own home network.
 
-Black Ops II fetches emblem data over plain HTTP from Treyarch's old
-Demonware servers. This toolkit sits between your PS5 and the internet as a
-local network proxy:
+## How it works
 
-- **Capture mode** — saves the emblem of any player whose channel you open.
-- **Show mode** — replaces your emblem data with one you've captured (or your
-  own), so it displays for other players you look at.
-- Everything else (PSN sign-in, matchmaking, friends list, all normal
-  traffic) passes through completely untouched — HTTPS traffic is tunneled
-  raw and is never decrypted.
+Black Ops II fetches emblem data over plain HTTP from Treyarch's old Demonware servers. This tool runs a small proxy on your PC, and you point your PS5's network settings at it. Only that one emblem-storage endpoint is touched:
 
-## Features
+- In capture mode, the proxy saves a copy of whatever emblem data your console downloads.
+- In show mode, it replaces the emblem data your console downloads with a captured emblem of your choosing.
 
-- 🖥️ **One web control panel** — start it, open your browser, click buttons.
-  No terminal commands to memorize.
-- 📸 **Capture** any player's saved emblems just by viewing their channel.
-- 📤 **Show** one selected emblem to everyone you look at, regardless of
-  which emblem "slot" their console happens to request (see
-  [docs/USAGE.md](docs/USAGE.md) for why this matters).
-- ☑️ **Simple, single-selection picker** — a flat list of every emblem you've
-  captured, click one to select it. No technical concepts to learn.
-- 🎨 **Pixel-accurate rendering** — thumbnails are real composited renders of
-  the actual emblem shapes, colors, and layout, not placeholders. The
-  renderer was calibrated directly against the live game engine.
-- 🏷️ Rename captured emblems with your own labels so they're easy to find
-  later.
+Everything else, including PSN sign-in and matchmaking, passes through the proxy untouched. HTTPS traffic is tunneled through as-is and is never decrypted.
 
-## Quick start
+## The actual steps
 
-1. [Install](docs/INSTALL.md) — one-time setup (Python + pointing your PS5 at
-   this app).
-2. [Usage](docs/USAGE.md) — how to capture and show emblems day to day.
+1. Turn on capture mode in the control panel.
+2. On your PS5, open the profile or channel of the player whose emblem you want. Their emblem gets saved automatically.
+3. In the control panel, click the captured emblem to select it.
+4. Turn on show mode.
+5. Open your own emblem editor on the PS5. The captured emblem loads in place of whatever you'd normally see there.
+6. Save it, same as you would with anything you made yourself.
+
+See [docs/USAGE.md](docs/USAGE.md) for the full walkthrough and [docs/INSTALL.md](docs/INSTALL.md) for setup.
+
+## Running it
 
 ```
 pip install -r requirements.txt
 python run.py
 ```
 
-That's it — your browser opens to the control panel automatically.
+Your browser opens to the control panel on its own. On Windows you can also just double-click `start.bat`.
 
 ## Requirements
 
-- Windows, macOS, or Linux with Python 3.9+
-- A PS5 and PC on the same local network (same Wi-Fi/router, or the PC's own
-  mobile hotspot)
-- [Pillow](https://pypi.org/project/Pillow/) (installed via `requirements.txt`)
+- Windows, macOS, or Linux with Python 3.9 or newer
+- A PS5 and a PC on the same network, or the PC's own mobile hotspot with the PS5 connected to it
+- Pillow, installed automatically from `requirements.txt`
 
-## How it's built
-
-The project is a small, dependency-light Python package:
+## Project layout
 
 ```
 emblemtool/
-  config.py         constants (ports, paths)
-  state.py          current mode (off / capture / show)
-  storage.py        captured emblems on disk + user-facing labels
-  broadcast.py       which single emblem is currently selected to show
-  proxy.py          the MITM proxy server itself
-  shapes/           calibrated shape-ID data + the emblem renderer
-  web/              the control panel: a small JSON API + static frontend
-run.py              the only entry point - starts everything
+  config.py      ports and file paths
+  state.py        current mode: off, capture, or show
+  storage.py      captured emblems on disk, and their labels
+  broadcast.py    which emblem is currently selected
+  proxy.py        the proxy server
+  shapes/         the calibrated shape data and the emblem renderer
+  web/            the control panel: API plus static frontend
+run.py            starts everything
 ```
 
-See the module docstrings for details on the emblem binary format and how it
-was reverse-engineered and validated against the actual game.
+Details on the emblem file format and how it was worked out are in the module docstrings, mainly `emblemtool/shapes/render.py`.
 
 ## Contributing
 
-Issues and pull requests are welcome. The codebase is intentionally small and
-dependency-light — please keep it that way.
+Issues and pull requests are welcome.
 
 ## License
 
-[MIT](LICENSE) — do whatever you like with this, including modifying and
-redistributing it, as long as you keep the copyright notice and credit
-**alexkotr1** as the original author.
+MIT, see [LICENSE](LICENSE). You can use, modify, and redistribute this however you like, as long as the copyright notice stays in and alexkotr1 is credited as the original author.
 
-## Disclaimer
+## A note on scope
 
-This tool only touches Black Ops II's own plain-HTTP emblem endpoint; all
-other traffic (including PSN authentication) passes through unmodified and
-undecrypted. Emblem data is cosmetic, non-sensitive information that's
-already visible to anyone you play with or against in-game. Use it on your
-own account and network. The author is not affiliated with Activision,
-Treyarch, or Sony.
+This only intercepts Black Ops II's own emblem-storage requests. Everything else passes through unmodified, including PSN authentication, which stays encrypted the whole time. Emblem data isn't private information, it's the same thing you already see displayed on other players in-game. This project isn't affiliated with Activision, Treyarch, or Sony.
