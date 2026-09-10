@@ -2,6 +2,8 @@
 # should never be committed.
 saved/
 state.txt
+logs/
+settings.json
 
 # Python
 __pycache__/

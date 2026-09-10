@@ -11,7 +11,7 @@ import json
 import os
 
 from . import config
-from .storage import group_dir
+from .storage import group_dir, retry_if_locked
 
 
 def _data_path():
@@ -44,8 +44,7 @@ def select_emblem(group, slot):
 
 def clear_selection():
     for p in (_data_path(), _meta_path()):
-        if os.path.exists(p):
-            os.remove(p)
+        retry_if_locked(os.remove, p)
 
 
 def read_selected_data():

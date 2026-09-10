@@ -5,10 +5,11 @@ saved emblem slot that player's console requested.
 import json
 import os
 import re
+import shutil
 import threading
 import time
 
-from . import config
+from . import config, debuglog
 
 _capture_lock = threading.Lock()
 
@@ -17,6 +18,27 @@ _SLOT_RE = re.compile(r"^slot_(\d+)\.bin$")
 
 def group_dir(name):
     return os.path.join(config.SAVED_DIR, name)
+
+
+def retry_if_locked(delete, path):
+    """Run delete(path) (os.remove / shutil.rmtree), retrying for up to a
+    second if Windows says the file is in use. It refuses to delete anything
+    another handle has open - a panel request reading it at that moment, or
+    antivirus/search indexing scanning it - which normally lets go within
+    milliseconds. Already-gone counts as done."""
+    for attempt in range(20):
+        try:
+            delete(path)
+            return
+        except FileNotFoundError:
+            return
+        except PermissionError as e:
+            if attempt == 19:
+                debuglog.error("STORAGE", f"gave up deleting {path} - still in use after 1s: {e}")
+                raise
+            if attempt == 0:
+                debuglog.debug("STORAGE", f"{path} is in use by something else - retrying ({e})")
+            time.sleep(0.05)
 
 
 def read_meta(name):
@@ -78,6 +100,7 @@ def get_or_create_capture_group(userhash):
             "userhash": userhash,
             "first_captured": time.strftime("%Y-%m-%d %H:%M:%S"),
         })
+        debuglog.info("STORAGE", f"new capture group {name} for {userhash}")
         return name
 
 
@@ -117,3 +140,32 @@ def list_emblems():
             })
     emblems.sort(key=lambda e: e["captured_at"], reverse=True)
     return emblems
+
+
+# ---------- deleting ----------
+# Both only ever touch names that list_groups()/group_slots() actually found
+# under saved/, so a crafted group like "../.." can't reach anything else.
+# Neither touches the current selection - callers clear that themselves.
+
+def delete_emblem(group, slot):
+    """Delete one captured emblem and its label, or its whole group folder if
+    it was the last one there. Returns False if there's no such emblem."""
+    with _capture_lock:
+        if group not in list_groups() or slot not in group_slots(group):
+            return False
+        retry_if_locked(os.remove, os.path.join(group_dir(group), f"slot_{slot}.bin"))
+        if group_slots(group):
+            set_emblem_label(group, slot, "")
+        else:
+            retry_if_locked(shutil.rmtree, group_dir(group))
+        debuglog.info("STORAGE", f"deleted emblem {group}:{slot}")
+        return True
+
+
+def delete_all_emblems():
+    """Delete every captured emblem."""
+    with _capture_lock:
+        groups = list_groups()
+        for group in groups:
+            retry_if_locked(shutil.rmtree, group_dir(group))
+        debuglog.info("STORAGE", f"deleted all {len(groups)} capture groups")

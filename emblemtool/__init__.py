@@ -3,4 +3,4 @@
 See README.md for what this is and docs/ for setup and usage instructions.
 """
 
-__version__ = "1.0.0"
+__version__ = "1.1.0"

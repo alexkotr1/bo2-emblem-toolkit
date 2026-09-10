@@ -21,6 +21,10 @@ Only one mode runs at a time.
 
 Click the text under a card to rename it to something you'll recognize later, like "Sam's dragon emblem," instead of the default.
 
+## Deleting emblems
+
+Hover over a card and click the × in its corner to delete that emblem, or click **Delete all** next to Refresh to clear the whole list. Either way it asks first, and deleted emblems can't be recovered. If you delete the emblem that's selected for Show, it gets unselected too.
+
 ## Copying an emblem onto your own account
 
 1. Click the emblem card you want. A checkmark shows which one is selected. Only one can be selected at a time.
@@ -35,6 +39,16 @@ You can change your selection at any point, in any mode. It takes effect as soon
 **The editor only checks the server once per game session.** The first time you open your emblem editor, Black Ops II caches whatever it loads and won't ask again after that, even if you pick a different emblem in the control panel. If you need to load a second or third emblem, you have to clear that cache first: either fully restart the game, or switch to Zombies and back to Multiplayer, then open the editor again. Just backing out of the editor and going back in isn't enough.
 
 **It won't work if the emblem uses a shape you haven't unlocked.** Emblems are built from shapes, ranks, and weapon-qualification icons that Black Ops II normally only lets you use once you've earned them. If a captured emblem includes something your own account hasn't unlocked, the game may fail to load it, show it incorrectly, or refuse to save it. There's no way around this from the toolkit's side, since the game itself is enforcing it, not the proxy.
+
+## Sending a debug log
+
+If something isn't working, a debug log usually shows the developer why:
+
+1. In the control panel, under **Troubleshooting**, switch **Debug log** on.
+2. Do whatever isn't working again (capturing, Show, saving, ...).
+3. Click **Open logs folder** and send the newest `debug-....log` file, for example by attaching it to a GitHub issue.
+
+The log records what the toolkit did, every error it hit, and which servers your PS5 contacted. It never includes your emblems, login details, or other players' IDs (those are replaced with player-1, player-2, ...). Debug logging stays on, even after a restart, until you switch it off. If the toolkit won't start at all, start it once with `--debug` (`python run.py --debug`, or `BO2EmblemToolkit.exe --debug` from a terminal) and the log will show why.
 
 ## Questions
 

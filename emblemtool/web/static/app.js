@@ -69,6 +69,7 @@ function renderEmblems() {
   const empty = document.getElementById("emblemsEmpty");
   list.innerHTML = "";
   empty.style.display = currentEmblems.length ? "none" : "";
+  document.getElementById("deleteAllBtn").hidden = !currentEmblems.length;
 
   const tpl = document.getElementById("emblemCardTpl");
   for (const e of currentEmblems) {
@@ -91,11 +92,64 @@ function renderEmblems() {
       await refreshStatus();
     });
 
+    node.querySelector(".emblem-delete").addEventListener("click", async (evt) => {
+      evt.stopPropagation(); // don't also select the card
+      if (!confirm("Delete this emblem? This can't be undone.")) return;
+      const r = await postJSON("/api/delete", { group: e.group, slot: e.slot });
+      if (!r.ok) alert(r.error || "Couldn't delete that emblem.");
+      await refreshAll();
+    });
+
     list.appendChild(node);
   }
 }
 
 document.getElementById("refreshBtn").addEventListener("click", refreshAll);
+
+document.getElementById("deleteAllBtn").addEventListener("click", async () => {
+  const n = currentEmblems.length;
+  if (!n || !confirm(`Delete all ${n} captured emblem${n === 1 ? "" : "s"}? This can't be undone.`)) return;
+  const r = await postJSON("/api/delete-all");
+  if (!r.ok) alert(r.error || "Couldn't delete everything.");
+  await refreshAll();
+});
+
+// ---------- debug log ----------
+
+let debugOn = false;
+
+async function loadDebug() {
+  const d = await getJSON("/api/debug");
+  debugOn = d.enabled;
+  document.getElementById("debugToggle").checked = d.enabled;
+  document.getElementById("debugStatus").textContent = d.enabled
+    ? `On. Saving to ${d.log_file}`
+    : d.log_file ? `Off. Most recent log: ${d.log_file}` : `Off. Logs are saved in ${d.log_dir}`;
+}
+
+document.getElementById("debugToggle").addEventListener("change", async (evt) => {
+  const r = await postJSON("/api/debug", { enabled: evt.target.checked });
+  if (!r.ok) alert(r.error || "Couldn't change the debug log setting.");
+  await loadDebug();
+});
+
+document.getElementById("openLogsBtn").addEventListener("click", async () => {
+  const r = await postJSON("/api/debug/open-folder");
+  if (!r.ok) alert(r.error || "Couldn't open the logs folder.");
+});
+
+// Errors in this page itself (a script error, a request that failed) go into
+// the debug log too, so a "the panel is broken" report comes with the reason.
+function reportPanelError(message, detail) {
+  if (!debugOn) return;
+  fetch("/api/debug/client-error", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ message: String(message), detail: String(detail || "") }),
+  }).catch(() => {}); // the toolkit itself may be what's down
+}
+window.addEventListener("error", (e) => reportPanelError(e.message, `${e.filename}:${e.lineno}:${e.colno} ${e.error?.stack || ""}`));
+window.addEventListener("unhandledrejection", (e) => reportPanelError(e.reason?.message || e.reason, e.reason?.stack));
 
 // ---------- refresh loop ----------
 
@@ -115,5 +169,6 @@ async function refreshAll() {
 }
 
 loadNetworkInfo();
+loadDebug();
 refreshAll();
 setInterval(refreshAll, 5000);

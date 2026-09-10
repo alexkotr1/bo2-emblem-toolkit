@@ -53,11 +53,26 @@
   <section class="card">
     <div class="section-head">
       <h2>Your captured emblems</h2>
-      <button class="btn btn-ghost btn-small" id="refreshBtn">Refresh</button>
+      <div class="section-actions">
+        <button class="btn btn-ghost btn-small btn-danger" id="deleteAllBtn" hidden>Delete all</button>
+        <button class="btn btn-ghost btn-small" id="refreshBtn">Refresh</button>
+      </div>
     </div>
-    <p class="muted">Click one to select it. Once you switch to <strong>Show</strong> and open your own emblem editor, this is the emblem that loads there, ready to save as your own.</p>
+    <p class="muted">Click one to select it. Once you switch to <strong>Show</strong> and open your own emblem editor, this is the emblem that loads there, ready to save as your own. The × in a card's corner deletes it.</p>
     <p class="muted" id="emblemsEmpty">No emblems captured yet. Switch to <strong>Capture</strong> mode, then open a player's profile on your PS5.</p>
     <div class="emblem-list" id="emblemList"></div>
+  </section>
+
+  <section class="card">
+    <h2>Troubleshooting</h2>
+    <label class="switch-row">
+      <input type="checkbox" id="debugToggle">
+      <span class="switch" aria-hidden="true"></span>
+      <span>Debug log</span>
+    </label>
+    <p class="muted debug-status" id="debugStatus"></p>
+    <p class="muted">Something not working? Turn this on, try whatever failed again, then click <strong>Open logs folder</strong> and send the developer the newest file there, for example by attaching it to a GitHub issue. The log records what the toolkit did, every error, and which servers your PS5 contacted. It never includes your emblems, login details, or other players' IDs.</p>
+    <button class="btn btn-ghost btn-small" id="openLogsBtn" type="button">Open logs folder</button>
   </section>
 
 </main>
@@ -72,6 +87,7 @@
 
 <template id="emblemCardTpl">
   <div class="emblem-card">
+    <button class="emblem-delete" type="button" title="Delete this emblem" aria-label="Delete this emblem">×</button>
     <div class="emblem-select-indicator">✓</div>
     <div class="thumb-frame"><img class="emblem-thumb" alt="emblem"></div>
     <input class="emblem-label-input" placeholder="Unnamed emblem">

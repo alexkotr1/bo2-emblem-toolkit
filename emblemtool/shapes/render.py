@@ -33,7 +33,7 @@ import struct
 
 from PIL import Image, ImageChops, ImageFilter
 
-from .. import config
+from .. import config, debuglog
 from .shape_id_map import known_ids
 
 LAYER_SIZE = 44
@@ -50,6 +50,9 @@ def strip_http(data):
 
 def parse_slot_bytes(data):
     body = strip_http(data)
+    if len(body) != LAYER_SIZE * NUM_LAYERS:
+        debuglog.warning("RENDER", f"emblem data is {len(body)} bytes, not {LAYER_SIZE * NUM_LAYERS} - "
+                                   "probably not a normal emblem (an error reply, or a changed format)")
     layers = []
     for i in range(min(NUM_LAYERS, len(body) // LAYER_SIZE)):
         rec = body[i * LAYER_SIZE:(i + 1) * LAYER_SIZE]
@@ -82,11 +85,13 @@ def _load_shape_image(shape_id):
         return _shape_cache[shape_id]
     label = known_ids.get(shape_id)
     if not label:
+        debuglog.warning("RENDER", f"unknown shape id {shape_id} - drawing a placeholder square")
         _shape_cache[shape_id] = None
         return None
     _, name = label.split("/", 1)
     path = os.path.join(config.SHAPES_DIR, name + ".png")
     if not os.path.exists(path):
+        debuglog.error("RENDER", f"shape id {shape_id} ({label}) has no image at {path} - drawing a placeholder")
         _shape_cache[shape_id] = None
         return None
     img = Image.open(path).convert("LA")
@@ -143,6 +148,9 @@ def render_png(layers, size=256, bg=(24, 24, 24, 255)):
     # comparing our composite to the game's own render of the same bytes).
     for L in sorted(layers, key=lambda l: l["index"]):
         shape_id = L["shape"]
+        if not (-10 < L["sx"] < 5 and -10 < L["sy"] < 5):  # also catches NaN
+            debuglog.warning("RENDER", f"layer {L['index']} has an unusual scale ({L['sx']:.3g}, {L['sy']:.3g}) - "
+                                       "drawing it may be slow or fail")
         # True scale is 2**raw (always positive), verified: a shape written at
         # scale 2**-1 rendered exactly half the size of one at scale 2**0.
         w = max(1, int((2 ** L["sx"]) * base_px))
