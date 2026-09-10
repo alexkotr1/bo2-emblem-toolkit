@@ -6,9 +6,11 @@ You capture the emblem while looking at that player's profile, then load it into
 
 Built for personal use, on your own PS5 and your own home network.
 
+What's new: see [CHANGELOG.md](CHANGELOG.md).
+
 ## How it works
 
-Black Ops II fetches emblem data over plain HTTP from Treyarch's old Demonware servers. This tool runs a small proxy on your PC, and you point your PS5's network settings at it. Only that one emblem-storage endpoint is touched:
+Black Ops II fetches emblem data over plain HTTP from Treyarch's old Demonware servers. This tool runs a small proxy on your PC, and you point your PS5's network settings at it. Only its emblem-storage requests are touched:
 
 - In capture mode, the proxy saves a copy of whatever emblem data your console downloads.
 - In show mode, it replaces the emblem data your console downloads with a captured emblem of your choosing.
@@ -59,6 +61,7 @@ emblemtool/
   storage.py      captured emblems on disk, and their labels
   broadcast.py    which emblem is currently selected
   proxy.py        the proxy server
+  debuglog.py     optional debug log for bug reports (written to logs/)
   shapes/         the calibrated shape data and the emblem renderer
   web/            the control panel: API plus static frontend
 run.py            starts everything

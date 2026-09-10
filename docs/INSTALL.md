@@ -118,6 +118,11 @@ confuse auto-detection. Find the correct IP yourself:
   same network as your PS5.
 - macOS/Linux: `ifconfig` or `ip addr`.
 
+**Still stuck?**
+
+Turn on the debug log and send it to the developer - see
+[Sending a debug log](USAGE.md#sending-a-debug-log).
+
 **"python is not recognized" / "command not found"**
 
 Python isn't on your PATH. Reinstall Python and make sure to check "Add to
